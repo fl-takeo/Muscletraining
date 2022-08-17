@@ -26,7 +26,7 @@ class Connect {
     //データ取得
     public function findManagementmenuByUserid ($user_id) {
         $dbh = $this->dbh;
-        $sql = "SELECT * FROM management_menu WHERE user_id = :user_id";
+        $sql = "SELECT * FROM management_menu WHERE user_id = :user_id ORDER BY id ASC";
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
         $stmt->execute();
@@ -35,18 +35,27 @@ class Connect {
     
     public function findManagementmenuById ($id) {
         $dbh = $this->dbh;
-        $sql = "SELECT * FROM management_menu WHERE id = :id";
+        $sql = "SELECT * FROM management_menu WHERE id = :id ORDER BY id ASC";
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt;
     }
 
-    public function findUsersByusername ($username) {
+    public function findUsersByUsername ($username) {
         $dbh = $this->dbh;
         $sql = "SELECT password, id FROM users WHERE username = :username";
         $stmt = $dbh->prepare($sql);
         $stmt->bindParam(":username", $username, PDO::PARAM_STR);
+        $stmt->execute();
+        return $stmt;
+    }
+
+    public function findUsersById ($id) {
+        $dbh = $this->dbh;
+        $sql = "SELECT username FROM users WHERE id = :id";
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);    
         $stmt->execute();
         return $stmt;
     }

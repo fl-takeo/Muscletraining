@@ -1,5 +1,30 @@
 <!--筋トレを行う画面-->
-<?php require_once __DIR__ . '/inc/login_check.php'; ?>
+<?php 
+    require_once __DIR__ . '/inc/login_check.php';
+    require_once __DIR__ . '/inc/Connect.php';
+    
+    $connect = new Connect;
+    $decidemenu = '';     //ビューを格納
+
+    try {
+        $user_id = $_SESSION['user_id'];
+        $stmt = $connect->findManagementmenuByUserid($user_id);
+        while ($row = $stmt->fetch()) {
+            //ロジックとビューを分離させる($decidemenuに代入)
+            $decidemenu .= "<input type='checkbox' name='menu[]' value='$row[menu] $row[unit]'>";
+            $decidemenu .= $row['menu'] . "\t" . $row['unit'] . "<br>";
+            $flg = true;
+        }
+
+        if ($flg == false) {
+            header('Location:./exception.php');     //筋トレメニューなし画面に遷移
+        }
+
+    } catch (PDOException $e) {
+        echo "エラー:" . $e->getMessage() . "<br>";     //エラー内容を表示（本番は表示させないようにする）
+        exit;
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -16,29 +41,7 @@
             <input type="submit" value="決定">
         </p>
         <p>
-            <?php
-                require_once __DIR__ . '/inc/Connect.php';
-                $connect = new Connect;
-
-                try {
-                    $user_id = $_SESSION['user_id'];
-                    $stmt = $connect->findManagementmenuByUserid($user_id);
-
-                    while ($row = $stmt->fetch()) {
-                        echo "<input type='checkbox' name='menu[]' value='$row[menu] $row[unit]'>";
-                        echo $row['menu'] . "\t" . $row['unit'] . "<br>";
-                        $flg = true;
-                    }
-
-                    if ($flg == false) {
-                        header('Location:./exception.php');     //筋トレメニューなし画面に遷移
-                    }
-
-                } catch (PDOException $e) {
-                    echo "エラー:" . $e->getMessage() . "<br>";     //エラー内容を表示（本番は表示させないようにする）
-                    exit;
-                }
-            ?>
+            <?php echo $decidemenu ?>     <!--ビューのみ表示-->
         </p>
     </form>
     <?php include __DIR__ . '/inc/footer.php'; ?>

@@ -1,8 +1,13 @@
 <!--筋トレ中画面-->
 <?php
     session_start();
+
     require_once __DIR__ . '/inc/login_check.php';
+    require_once __DIR__ . '/inc/Connect.php';
+
+    $connect = new Connect;
     $flg = 0;
+    
     if (!empty($_POST['menu'])) {
         $_SESSION['menu'] = $_POST['menu'];
     } else if (!empty($_GET['comp'])) {

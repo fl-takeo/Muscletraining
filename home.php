@@ -1,5 +1,10 @@
 <!--ホーム画面-->
-<?php require_once __DIR__ . '/inc/login_check.php'; ?>
+<?php 
+    require_once __DIR__ . '/inc/login_check.php';
+    require_once __DIR__ . '/inc/Connect.php';
+        
+    $connect = new Connect;
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>

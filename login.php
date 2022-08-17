@@ -47,11 +47,11 @@
 
             try {
                 $username = $_POST['username'];
-                $stmt = $connect->findUsersByusername($username);
+                $stmt = $connect->findUsersByUsername($username);
 
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 if (!$result) {   //ユーザ名が間違っている場合（結果が得られない）
-                    echo "ユーザー名を正しく入力してください";
+                    echo "ユーザー名とパスワードの組み合わせが正しくありません";
                     exit;
                 }
                 if ($_POST['password'] === $result['password']) {

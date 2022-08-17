@@ -29,8 +29,8 @@
                 <tr>
                     <td><?php echo ($row['menu']) ?></td>
                     <td><?php echo ($row['unit']) ?></td>
-                    <td><a href="update.php?id=<?php echo (int)$row['id']; ?>">編集</a></td>     <!--パラメータを付与-->
-                    <td><a href="delete.php?id=<?php echo (int)$row['id']; ?>">削除</a></td>    <!--パラメータを付与-->
+                    <td><a href="update.php?id=<?php echo $row['id']; ?>">編集</a></td>     <!--パラメータを付与-->
+                    <td><a href="delete.php?id=<?php echo $row['id']; ?>">削除</a></td>    <!--パラメータを付与-->
                 </tr>
                 <?php endwhile; ?>
             </table>
