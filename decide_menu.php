@@ -7,7 +7,6 @@
     $decidemenu = '';     //ビューを格納
 
     try {
-        $user_id = $_SESSION['user_id'];
         $stmt = $connect->findManagementmenuByUserid($user_id);
         while ($row = $stmt->fetch()) {
             //ロジックとビューを分離させる($decidemenuに代入)

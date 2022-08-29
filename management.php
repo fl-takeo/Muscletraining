@@ -20,7 +20,7 @@
         $connect = new Connect;
 
         try {
-            $user_id = $_SESSION['user_id'];
+            
             $stmt = $connect->findManagementmenuByUserid($user_id);
     ?>
             <table>

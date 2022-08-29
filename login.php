@@ -19,7 +19,7 @@
     <header>
         <h1>ログインしてください</h1>
     </header>
-    <form method='post' action='login.php?comp=true'>
+    <form method='post' action='login.php'>
         <p>
             <label for="username">ユーザー名:</label>
             <input type="text" name="username" id="username">
@@ -35,7 +35,7 @@
         require_once __DIR__ . '/inc/Connect.php';
         $connect = new Connect;
 
-        if (!empty($_GET['comp'])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (empty($_POST['username'])) {
                 echo "ユーザ名を入力してください";
                 exit;

@@ -1,7 +1,9 @@
 <!--メニュー追加画面-->
 <?php 
-    session_start();
-    require_once __DIR__ . '/inc/login_check.php'; 
+    require_once __DIR__ . '/inc/login_check.php';
+    require_once __DIR__ . '/inc/Connect.php';
+    
+    $connect = new Connect;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -13,7 +15,7 @@
     <header>
         <h1>～筋トレメニュー追加～</h1>
     </header>
-    <form method="post" action="add.php?flg=1">     <!--追加を押すとadd.phpが起動-->        
+    <form method="post" action="add.php">     <!--追加を押すとadd.phpが起動-->        
         <p>
             <label for="menu">メニュー:</label>
             <input type="text" name="menu" id="menu">
@@ -31,12 +33,9 @@
             <input type="submit" value="追加">
         </p>
     </form>
-    <?php include __DIR__ . '/inc/footer.php'; ?>
     <?php
-        if (!empty($_GET['flg'])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             include __DIR__ . '/inc/error_check.php';     //入力時のエラーチェックを行う
-            require_once __DIR__ . '/inc/Connect.php';
-            $connect = new Connect;
 
             try {
                 $menu = $_POST['menu'];
@@ -52,5 +51,6 @@
             }
         }
     ?>
+    <?php include __DIR__ . '/inc/footer.php'; ?>
 </body>
 </html>

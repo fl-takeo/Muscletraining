@@ -5,12 +5,13 @@
 
     $connect = new Connect;
 
+    //フォームに表示する値を取得する
     try {
         $id = (int)$_GET['id'];
         $stmt = $connect->findManagementmenuById($id);
         
         $result = $stmt->fetch(PDO::FETCH_ASSOC);     //key値をフィールド名で取得する
-        if (empty($_GET['flg'])) {
+        if ($_SERVER["REQUEST_METHOD"] != "POST") {     //初期画面（更新ボタンが押されていない時）
             $menu = $result['menu'];
             $unit = mb_substr($result['unit'], 0, -1, "UTF-8");      //回・秒を削除
         }
@@ -32,9 +33,9 @@
         <h1>～筋トレメニュー編集～</h1>
     </header>
 
-    <form method="post" action="update.php?id=<?php echo $id ?>&flg=1">     <!--追加を押すとupdate.phpが起動-->
+    <form method="post" action="update.php?id=<?php echo $id ?>">     <!--追加を押すとupdate.phpが起動-->
         <?php 
-            if(!empty($_GET['flg'])) {
+            if($_SERVER["REQUEST_METHOD"] == "POST") {
                 $menu = $_POST['menu'];
                 $unit = mb_substr($_POST['unit'], 0, -1, "UTF-8");
             }
@@ -58,7 +59,7 @@
         </p>      
     </form>
     <?php
-        if (!empty($_GET['flg'])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             include __DIR__ . '/inc/error_check.php';     //入力時のエラーチェックを行う
 
             try {
