@@ -5,6 +5,10 @@
 
     $connect = new Connect;
 
+    $emptyerrorformenu = '';
+    $emptyerrorforunit = '';
+    $patternerror = '';
+
     //フォームに表示する値を取得する
     try {
         $id = (int)$_GET['id'];
@@ -20,6 +24,11 @@
         exit;
     }
     
+?>
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        include __DIR__ . '/inc/error_check.php';     //入力時のエラーチェックを行う
+    }
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +52,8 @@
 
         <p>
             <label for="menu">メニュー:</label>
-            <input type="text" name="menu" id="menu" value="<?php echo $menu ?>">
+            <input type="text" name="menu" id="menu" value="<?php echo $menu ?>"><br>
+            <?php echo $emptyerrorformenu; ?><br>
         </p>
         <p>
             <label for="value">単位:</label>
@@ -52,7 +62,9 @@
             <select id="unit" name="unit">
                 <option value="回">回</option>
                 <option value="秒">秒</option>
-            </select>
+            </select><br>
+            <?php echo $emptyerrorforunit; ?><br>
+            <?php echo $patternerror; ?>
         </p>
         <p class="button">
             <input type="submit" value="更新">
@@ -60,8 +72,9 @@
     </form>
     <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            include __DIR__ . '/inc/error_check.php';     //入力時のエラーチェックを行う
-
+            if ($emptyerrorformenu != NULL || $emptyerrorforunit != NULL || $patternerror != NULL) {
+                exit;
+            }
             try {
                 $menu = $_POST['menu'];
                 $unit = $_POST['value'] . $_POST['unit'];

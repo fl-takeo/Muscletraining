@@ -4,7 +4,18 @@
     require_once __DIR__ . '/inc/Connect.php';
     
     $connect = new Connect;
+
+    $emptyerrorformenu = '';
+    $emptyerrorforunit = '';
+    $patternerror = '';
 ?>
+
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        include __DIR__ . '/inc/error_check.php';     //入力時のエラーチェックを行う
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -18,7 +29,8 @@
     <form method="post" action="add.php">     <!--追加を押すとadd.phpが起動-->        
         <p>
             <label for="menu">メニュー:</label>
-            <input type="text" name="menu" id="menu">
+            <input type="text" name="menu" id="menu"><br>
+            <?php echo $emptyerrorformenu; ?><br>
         </p>
         <p>
             <label for="value">単位:</label>
@@ -27,7 +39,9 @@
             <select id="unit" name="unit">
                 <option value="回">回</option>
                 <option value="秒">秒</option>
-            </select>
+            </select><br>
+            <?php echo $emptyerrorforunit; ?><br>
+            <?php echo $patternerror; ?>
         </p>
         <p class="button">
             <input type="submit" value="追加">
@@ -35,7 +49,9 @@
     </form>
     <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            include __DIR__ . '/inc/error_check.php';     //入力時のエラーチェックを行う
+            if ($emptyerrorformenu != NULL || $emptyerrorforunit != NULL || $patternerror != NULL) {
+                exit;
+            }
 
             try {
                 $menu = $_POST['menu'];

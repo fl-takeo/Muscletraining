@@ -20,7 +20,6 @@
         $connect = new Connect;
 
         try {
-            
             $stmt = $connect->findManagementmenuByUserid($user_id);
     ?>
             <table>

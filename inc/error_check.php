@@ -1,14 +1,10 @@
 <!--バリデーションチェック-->
 <?php
 if (empty($_POST['menu'])) {
-    echo "メニュー欄を入力してください";
-    exit;
+    $emptyerrorformenu = "メニュー欄を入力してください";
 }
 if (empty($_POST['value'])) {
-    echo "単位欄を入力してください";
-    exit;
-}
-if (!preg_match('/^[0-9]+$/', $_POST['value'])) {
-    echo "単位には数値のみ入力できます";
-    exit;
+    $emptyerrorforunit = "単位欄を入力してください";
+} else if (!preg_match('/^[0-9]+$/', $_POST['value'])) {
+    $patternerror = "単位には数値のみ入力できます";
 }
